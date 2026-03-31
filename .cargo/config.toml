@@ -1,0 +1,9 @@
+[alias]
+test-min-xml = "test --no-default-features -F xml,regex --lib --tests"
+test-min-pubmed = "test --no-default-features -F pubmed,regex --lib --tests"
+test-min-csv = "test --no-default-features -F csv,regex --lib --tests"
+test-min-ris = "test --no-default-features -F ris,regex --lib --tests"
+test-min-dedupe = "test --no-default-features -F dedupe,regex --lib --tests"
+test-min-regex = "test --no-default-features -F regex --lib --tests"
+test-min-lite = "test --no-default-features -F lite --lib --tests"
+test-min-diagnostics = "test --no-default-features -F diagnostics,regex --lib --tests"

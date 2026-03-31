@@ -409,9 +409,17 @@ TI  - Test Title
 AU  - Smith, John
 ER  -"#;
 
-        let (citations, format) = detect_and_parse(content).unwrap();
-        assert_eq!(format, CitationFormat::Ris);
-        assert_eq!(citations[0].title, "Test Title");
+        #[cfg(feature = "ris")]
+        {
+            let (citations, format) = detect_and_parse(content).unwrap();
+            assert_eq!(format, CitationFormat::Ris);
+            assert_eq!(citations[0].title, "Test Title");
+        }
+        #[cfg(not(feature = "ris"))]
+        {
+            let result = detect_and_parse(content);
+            assert!(matches!(result, Err(CitationError::UnknownFormat)));
+        }
     }
 
     #[test]
@@ -420,9 +428,17 @@ ER  -"#;
 TI  - Test Title
 FAU - Smith, John"#;
 
-        let (citations, format) = detect_and_parse(content).unwrap();
-        assert_eq!(format, CitationFormat::PubMed);
-        assert_eq!(citations[0].title, "Test Title");
+        #[cfg(feature = "pubmed")]
+        {
+            let (citations, format) = detect_and_parse(content).unwrap();
+            assert_eq!(format, CitationFormat::PubMed);
+            assert_eq!(citations[0].title, "Test Title");
+        }
+        #[cfg(not(feature = "pubmed"))]
+        {
+            let result = detect_and_parse(content);
+            assert!(matches!(result, Err(CitationError::UnknownFormat)));
+        }
     }
 
     #[test]
@@ -432,9 +448,17 @@ FAU - Smith, John"#;
 <titles><title>Test Title</title></titles>
 </record></records></xml>"#;
 
-        let (citations, format) = detect_and_parse(content).unwrap();
-        assert_eq!(format, CitationFormat::EndNoteXml);
-        assert_eq!(citations[0].title, "Test Title");
+        #[cfg(feature = "xml")]
+        {
+            let (citations, format) = detect_and_parse(content).unwrap();
+            assert_eq!(format, CitationFormat::EndNoteXml);
+            assert_eq!(citations[0].title, "Test Title");
+        }
+        #[cfg(not(feature = "xml"))]
+        {
+            let result = detect_and_parse(content);
+            assert!(matches!(result, Err(CitationError::UnknownFormat)));
+        }
     }
 
     #[test]
